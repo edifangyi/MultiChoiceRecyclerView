@@ -168,7 +168,8 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
     }
 
     /**
-     *
+     * Use this method instead of {@link RecyclerView.Adapter#notifyDataSetChanged()}
+     * and it'll automatically handle the list refresh without loosing current item state
      */
     public void refreshDataSet() {
         refreshDataSetInternal();
