@@ -168,11 +168,15 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
     }
 
     /**
-     * Use this method instead of {@link RecyclerView.Adapter#notifyDataSetChanged()}
-     * and it'll automatically handle the list refresh without loosing current item state
+     * <b>Use this method instead of {@link RecyclerView.Adapter#notifyDataSetChanged()} for
+     * notifying a change in the data set.</b>
+     *
+     * <b>NOTE: The new data will not keep the current selected status, all the item will be reset to INACTIVE.</b>
+     * 
      */
-    public void refreshDataSet() {
-        refreshDataSetInternal();
+    public void notifyAdapterDataSetChanged() {
+        // TODO: 10/03/2017 Create some possible instrumentation tests around this functionality
+        notifyAdapterDataSetChangedInternal();
     }
 
     //endregion
@@ -314,24 +318,10 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
         }
     }
 
-    private void refreshDataSetInternal() {
-        if (mItemList.isEmpty()) {
-            for (int i = 0; i < getItemCount(); i++) {
-                mItemList.put(i, State.INACTIVE);
-            }
-        } else if (mItemList.size() > getItemCount()) { // We have new items, let's add only the new ones as inactive
-            for (int i = 0; i < getItemCount(); i++) {
-                if (mItemList.get(i) != null) {
-                    mItemList.put(i, State.INACTIVE);
-                }
-            }
-        } else {
-            // Keep just the number of item in the getItemCount remove all the others.
-            for (int i = 0; i < mItemList.size(); i++) {
-                if (i + 1 > getItemCount()) {
-                    mItemList.remove(i);
-                }
-            }
+    private void notifyAdapterDataSetChangedInternal() {
+        // TODO: 10/03/2017 create some unit tests on this
+        for (int i = 0; i < getItemCount(); i++) {
+            mItemList.put(i, State.INACTIVE);
         }
         processNotifyDataSetChanged();
     }
@@ -345,7 +335,7 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
 
-        refreshDataSetInternal();
+        notifyAdapterDataSetChangedInternal();
         super.onAttachedToRecyclerView(recyclerView);
     }
 
