@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -197,6 +198,11 @@ public class SampleToolbarActivity extends BaseActivity {
     @QuantityMode
     public int getQuantityMode() {
         return quantityMode;
+    }
+
+    @VisibleForTesting
+    public MySampleToolbarAdapter getMySampleToolbarAdapter() {
+        return mMySampleToolbarAdapter;
     }
 
     public void setQuantityMode(@QuantityMode int quantityMode) {

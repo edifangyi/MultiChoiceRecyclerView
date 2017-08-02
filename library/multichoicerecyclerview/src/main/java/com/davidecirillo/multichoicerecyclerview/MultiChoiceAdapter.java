@@ -172,10 +172,9 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
      * notifying a change in the data set.</b>
      *
      * <b>NOTE: The new data will not keep the current selected status, all the item will be reset to INACTIVE.</b>
-     * 
+     *
      */
     public void notifyAdapterDataSetChanged() {
-        // TODO: 10/03/2017 Create some possible instrumentation tests around this functionality
         notifyAdapterDataSetChangedInternal();
     }
 
@@ -267,7 +266,7 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
         }
     }
 
-    private void processNotifyDataSetChanged() {
+    void processNotifyDataSetChanged() {
         if (mRecyclerView != null) {
             notifyDataSetChanged();
         }
@@ -319,7 +318,7 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
     }
 
     private void notifyAdapterDataSetChangedInternal() {
-        // TODO: 10/03/2017 create some unit tests on this
+        mItemList.clear();
         for (int i = 0; i < getItemCount(); i++) {
             mItemList.put(i, State.INACTIVE);
         }
