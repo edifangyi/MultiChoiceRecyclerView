@@ -88,7 +88,7 @@ Customize the activation or deactivation just overriding the setActive(View root
 
 #### Important notes
 - Do not forget to call `super.onBindViewHolder(holder, position)` when binding the view holder
-- Use the method `refreshDataSet()` instead of the classic `notifyDataSetChanged()` in order to let the library refresh the list and keep a correct internal library state.
+- Use the method `notifyAdapterDataSetChanged()` instead of the classic `notifyDataSetChanged()` in order to let the library refresh the list and keep a correct internal library state.
 
 ## Features
 [Sample features](https://github.com/dvdciri/MultiChoiceRecyclerView/blob/master/FEATURES.md)
