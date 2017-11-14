@@ -22,6 +22,7 @@ import com.davidecirillo.multichoicesample.ResultActivity;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,9 +32,9 @@ public class SampleToolbarActivity extends BaseActivity {
     private static final int DEFAULT_QUANTITY_MODE = QuantityMode.STRING;
 
     @IntDef({
-            QuantityMode.NONE,
-            QuantityMode.STRING,
-            QuantityMode.PLURALS,
+        QuantityMode.NONE,
+        QuantityMode.STRING,
+        QuantityMode.PLURALS,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface QuantityMode {
@@ -63,6 +64,18 @@ public class SampleToolbarActivity extends BaseActivity {
     @Override
     protected int setActivityIdentifier() {
         return R.layout.activity_sample_toolbar;
+    }
+
+    @OnClick(R.id.notify_data_changed)
+    void notifyDataChanged() {
+
+        stringList.clear();
+        Random random = new Random();
+        for (int i = 0; i < random.nextInt(15); i++) {
+            stringList.add("New item " + i);
+        }
+
+        mMySampleToolbarAdapter.notifyAdapterDataSetChanged();
     }
 
     @OnClick(R.id.result)
@@ -99,13 +112,13 @@ public class SampleToolbarActivity extends BaseActivity {
         stringList = getSampleList();
 
         MultiChoiceToolbar.Builder builder = new MultiChoiceToolbar.Builder(SampleToolbarActivity.this, toolbar)
-                .setMultiChoiceColours(R.color.colorPrimaryMulti, R.color.colorPrimaryDarkMulti)
-                .setDefaultIcon(R.drawable.ic_arrow_back_white_24dp, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onBackPressed();
-                    }
-                });
+            .setMultiChoiceColours(R.color.colorPrimaryMulti, R.color.colorPrimaryDarkMulti)
+            .setDefaultIcon(R.drawable.ic_arrow_back_white_24dp, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
 
         switch (quantityMode) {
             case QuantityMode.NONE:
@@ -162,15 +175,15 @@ public class SampleToolbarActivity extends BaseActivity {
                     boolean select = mMySampleToolbarAdapter.select(2);
                     if (!select) {
                         Toast.makeText(this, "Item not selected because not in multi choice mode or single click mode, select something first.",
-                                Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_LONG).show();
                     }
                     return true;
 
                 case R.id.single_click_mode:
                     mMySampleToolbarAdapter.setSingleClickMode(!mMySampleToolbarAdapter.isInSingleClickMode());
                     Toast.makeText(getApplicationContext(),
-                            "Always Single Click Mode [" + mMySampleToolbarAdapter.isInSingleClickMode() + "]",
-                            Toast.LENGTH_SHORT).show();
+                        "Always Single Click Mode [" + mMySampleToolbarAdapter.isInSingleClickMode() + "]",
+                        Toast.LENGTH_SHORT).show();
 
                     return true;
 
@@ -210,5 +223,10 @@ public class SampleToolbarActivity extends BaseActivity {
 
         this.quantityMode = quantityMode;
         setUpMultiChoiceRecyclerView();
+    }
+
+    public void setStringList(ArrayList<String> list) {
+        stringList.clear();
+        stringList.addAll(list);
     }
 }

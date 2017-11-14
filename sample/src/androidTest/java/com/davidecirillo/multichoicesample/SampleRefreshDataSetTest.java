@@ -42,12 +42,6 @@ public class SampleRefreshDataSetTest extends BaseMultiChoiceActivityTest {
     public void setUp() {
         mActivity = mActivityRule.getActivity();
 
-        mActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                mActivity.setQuantityMode(SampleToolbarActivity.QuantityMode.PLURALS);
-            }
-        });
-
         wakeScreen(mActivity);
     }
 
@@ -61,14 +55,15 @@ public class SampleRefreshDataSetTest extends BaseMultiChoiceActivityTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()))
                 .check(matches(isSelected()));
 
-        ((MultiChoiceAdapter) mActivity.getMySampleToolbarAdapter()).notifyAdapterDataSetChanged();
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        onView(withId(R.id.multiChoiceRecyclerView))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()))
-                .check(matches(isSelected()));
+                ((MultiChoiceAdapter) mActivity.getMySampleToolbarAdapter()).notifyAdapterDataSetChanged();
+            }
+        });
 
-        onView(withId(R.id.multiChoiceRecyclerView))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()))
-                .check(matches(isSelected()));
+        // TODO: 05/08/2017  add new item anche check that selected size is the new one
+
     }
 }
