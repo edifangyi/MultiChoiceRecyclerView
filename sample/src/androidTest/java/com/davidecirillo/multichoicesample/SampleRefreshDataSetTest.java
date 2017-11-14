@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.davidecirillo.multichoicerecyclerview.MultiChoiceAdapter;
 import com.davidecirillo.multichoicesample.api.BaseMultiChoiceActivityTest;
 import com.davidecirillo.multichoicesample.sampleToolbar.SampleToolbarActivity;
 
@@ -17,11 +16,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.davidecirillo.multichoicesample.api.RecyclerViewMatcher.withRecyclerView;
 
 @RunWith(AndroidJUnit4.class)
 public class SampleRefreshDataSetTest extends BaseMultiChoiceActivityTest {
@@ -59,11 +63,19 @@ public class SampleRefreshDataSetTest extends BaseMultiChoiceActivityTest {
             @Override
             public void run() {
 
-                ((MultiChoiceAdapter) mActivity.getMySampleToolbarAdapter()).notifyAdapterDataSetChanged();
+                ArrayList<String> newData = new ArrayList<>();
+                newData.add("data1");
+                newData.add("data2");
+
+                mActivity.getMySampleToolbarAdapter().setThis(newData);
+                mActivity.getMySampleToolbarAdapter().notifyAdapterDataSetChanged();
             }
         });
 
-        // TODO: 05/08/2017  add new item anche check that selected size is the new one
+        onView(withRecyclerView(R.id.multiChoiceRecyclerView).atPosition(0))
+            .check(matches(hasDescendant(withText("data1"))));
 
+        onView(withRecyclerView(R.id.multiChoiceRecyclerView).atPosition(1))
+            .check(matches(hasDescendant(withText("data2"))));
     }
 }
