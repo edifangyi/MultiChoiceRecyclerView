@@ -26,7 +26,7 @@ android {
     }
 
     lintOptions {
-        abortOnError true
+        abortOnError false
         disable 'Overdraw','UnusedResources','IconLocation','ContentDescription','AppLinksAutoVerifyError','AppLinksAutoVerifyWarning'
     }
 
