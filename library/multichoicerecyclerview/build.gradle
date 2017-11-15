@@ -54,7 +54,7 @@ android {
     lintOptions {
         // if true, stop the gradle build if errors are found
         abortOnError true
-        disable 'GoogleAppIndexingWarning'
+        disable 'GoogleAppIndexingWarning', 'UnusedResources'
     }
 
     buildTypes {
